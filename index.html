@@ -168,21 +168,33 @@
 
     <!-- Snowflakes -->
     <script>
+        // Maximum number of snowflakes on screen
+        const MAX_SNOWFLAKES = 30;
+        let snowflakeCount = 0;
+
         // Create falling snowflakes
         function createSnowflake() {
+            // Limit the number of snowflakes
+            if (snowflakeCount >= MAX_SNOWFLAKES) {
+                return;
+            }
+
             const snowflake = document.createElement('div');
             snowflake.classList.add('snowflake');
             snowflake.innerHTML = '❄';
             snowflake.style.left = Math.random() * 100 + '%';
-            snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            const duration = Math.random() * 3 + 2;
+            snowflake.style.animationDuration = duration + 's';
             snowflake.style.fontSize = (Math.random() * 1.5 + 0.5) + 'rem';
             snowflake.style.animationDelay = Math.random() * 5 + 's';
             document.body.appendChild(snowflake);
+            snowflakeCount++;
 
-            // Remove snowflake after animation
+            // Remove snowflake after animation completes
             setTimeout(() => {
                 snowflake.remove();
-            }, 8000);
+                snowflakeCount--;
+            }, (duration * 1000) + 1000);
         }
 
         // Create multiple snowflakes
